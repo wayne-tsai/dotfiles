@@ -1,0 +1,74 @@
+# ── macOS ──────────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# ── Linux / misc ───────────────────────────────────────────────────────────────
+*~
+.nfs*
+
+# ── Editors ────────────────────────────────────────────────────────────────────
+# Vim
+*.swp
+*.swo
+*.swn
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+Session.vim
+.netrwhist
+tags
+
+# JetBrains
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Emacs
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+
+# ── Build artifacts ────────────────────────────────────────────────────────────
+*.o
+*.a
+*.so
+*.pyc
+*.pyo
+__pycache__/
+*.egg-info/
+dist/
+build/
+.eggs/
+node_modules/
+.npm
+*.class
+target/
+
+# ── Environment / secrets ──────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+!*.pub
+
+# ── Logs / temp ────────────────────────────────────────────────────────────────
+*.log
+*.tmp
+*.bak
+*.orig
+.cache/

@@ -1,0 +1,27 @@
+# ── Backups created by link-configs.sh ───────────────────────────────────────
+home.bak/
+
+# ── Secrets — never commit these ─────────────────────────────────────────────
+home/.ssh/id_*
+home/.ssh/known_hosts
+home/.ssh/authorized_keys
+home/.ssh/sockets/
+home/.netrc
+home/.gnupg/
+
+# ── p10k cache & instant-prompt ───────────────────────────────────────────────
+home/.cache/
+home/.p10k.zsh        # machine-generated; commit your own copy explicitly
+
+# ── Zim compiled files ────────────────────────────────────────────────────────
+home/.local/share/zim/
+
+# ── Editor droppings ─────────────────────────────────────────────────────────
+*.swp
+*.swo
+*~
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.claude/

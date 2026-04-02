@@ -1,0 +1,62 @@
+[user]
+    name = Your Name
+    email = your@email.com
+
+[core]
+    excludesfile = ~/.gitignore_global
+    editor = vim
+    autocrlf = input
+    pager = less -FRX
+    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+    default = current
+
+[fetch]
+    prune = true
+
+[rebase]
+    autoStash = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = zebra
+
+[alias]
+    lg    = log --oneline --graph --decorate --all
+    lg1   = log --oneline --decorate -20
+    st    = status -sb
+    co    = checkout
+    br    = branch -vv
+    cp    = cherry-pick
+    unstage = reset HEAD --
+    undo  = reset --soft HEAD~1
+    last  = log -1 HEAD --stat
+    wip   = "!git add -A && git commit -m 'WIP'"
+    aliases = config --get-regexp alias
+    whoami = config user.email
+
+[color]
+    ui = auto
+
+[color "diff"]
+    meta       = yellow bold
+    frag       = magenta bold
+    old        = red bold
+    new        = green bold
+    whitespace = red reverse
+
+[credential]
+    helper = store
+
+[help]
+    autocorrect = 1

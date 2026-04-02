@@ -1,0 +1,23 @@
+# .zimrc — Zimfw module list
+# Run `zimfw install` after editing this file.
+
+# ── Theme ─────────────────────────────────────────────────────────────────────
+zmodule romkatv/powerlevel10k --use degit
+
+# ── Core utilities ────────────────────────────────────────────────────────────
+zmodule environment        # sets sane zsh defaults
+zmodule input              # correct bindkeys for input sequences
+zmodule termtitle          # set terminal title
+zmodule utility            # aliases and functions
+
+# ── Completion ────────────────────────────────────────────────────────────────
+zmodule zsh-users/zsh-completions --fpath src
+zmodule completion         # additional completions (must come after ^)
+
+# ── Git ───────────────────────────────────────────────────────────────────────
+zmodule git                # git aliases
+
+# ── Syntax & suggestions ──────────────────────────────────────────────────────
+zmodule zsh-users/zsh-syntax-highlighting
+zmodule zsh-users/zsh-autosuggestions
+zmodule zsh-users/zsh-history-substring-search
