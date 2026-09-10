@@ -26,3 +26,9 @@ home/.local/share/zim/
 .DS_Store
 Thumbs.db
 .claude/
+
+# ── Wallpaper renders ─────────────────────────────────────────────────────────
+# 8-9 MB each; re-render from the SVG with inkscape
+wallpaper/*.png
+# scratch seeds; keep only the catppuccin-topo-* sources
+wallpaper/topo*.svg
