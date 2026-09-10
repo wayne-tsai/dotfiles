@@ -1,0 +1,45 @@
+# shaders: stack as many custom-shader lines as you like. Cmd+Shift+, to reload.
+# order matters: each shader reads the previous one's output via iChannel0, so bloom goes last.
+custom-shader = shaders/cursor_blaze.glsl
+custom-shader = shaders/typing_pop.glsl
+# custom-shader = shaders/bloom.glsl
+# other cursors: cursor_warp, cursor_lightning, cursor_sweep, cursor_tail, sonic_boom_cursor, ripple_cursor
+# backgrounds (heavier on GPU, more distracting): just-snow, starfield, galaxy, crt, glow-rgbsplit-twitchy
+bell-features = system
+desktop-notifications = true
+
+# shell
+working-directory = ~/Developer
+shell-integration-features = sudo,ssh-terminfo,ssh-env
+
+# aesthetics
+font-family = BlexMono Nerd Font Mono
+font-size = 20
+background-opacity = 0.85
+background-blur = 20
+macos-titlebar-style = hidden
+
+# readability
+theme = Catppuccin Mocha
+background = #141414
+foreground = #d0d0d0
+# bright-black (ansi 8): dim gray that still clears minimum-contrast, used by zsh-autosuggest ghost text
+palette = 8=#6c7086
+minimum-contrast = 1.5
+font-thicken = true
+adjust-cell-height = 15%
+window-padding-x = 12
+window-padding-y = 8
+window-padding-balance = true
+
+# comfort
+cursor-style-blink = false
+mouse-hide-while-typing = true
+window-colorspace = display-p3
+window-padding-color = extend
+unfocused-split-opacity = 0.85
+split-divider-color = #3a3a3a
+macos-icon = glass
+
+# quick dropdown terminal: cmd+` anywhere
+keybind = global:cmd+grave_accent=toggle_quick_terminal

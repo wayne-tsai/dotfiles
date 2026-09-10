@@ -30,6 +30,7 @@ Designed for fast, repeatable setup on any Debian-based Linux system.
 | vim | `home/.vimrc` | sane defaults, space leader, split nav |
 | git | `home/.gitconfig`, `home/.gitignore_global` | aliases, global ignore |
 | SSH | `home/.ssh/config` | ControlMaster multiplexing, ed25519-first |
+| Ghostty | `home/.config/ghostty/config`, `home/.config/ghostty/shaders/` | macOS only, ignored on Linux. See [docs/mac-terminal.md](docs/mac-terminal.md) |
 
 **Installed packages:** `zsh`, `vim`, `git`, `tmux`, `openssh-client/server`, `mosh`, `gh` (GitHub CLI), `curl`, `wget`, `htop`, `tree`, `jq`, `unzip`, `build-essential`
 
@@ -107,8 +108,12 @@ dotfiles/
 │   ├── .zshenv
 │   ├── .zimrc
 │   ├── .tmux.conf
-│   └── .ssh/
-│       └── config
+│   ├── .ssh/
+│   │   └── config
+│   └── .config/
+│       └── ghostty/            macOS only; harmless on Linux (no Ghostty, no reader)
+│           ├── config
+│           └── shaders/        GLSL cursor and background effects
 │
 ├── bin/                        Utility scripts — on $PATH via .zshenv
 │   ├── update-system           apt update + upgrade + dist-upgrade + autoremove
@@ -119,6 +124,9 @@ dotfiles/
 │   ├── bootstrap.sh            Full new-machine setup (start here)
 │   ├── install-packages.sh     Install all tools via apt
 │   └── link-configs.sh         Symlink home/* into ~/
+│
+├── docs/                       Per-machine setup notes
+│   └── mac-terminal.md         Mac workstation: Ghostty, zsh, Neovim, shader tuning
 │
 ├── Makefile                    Convenience targets
 ├── .gitignore                  Keeps secrets and caches out of git
@@ -245,3 +253,9 @@ Templates for a bastion/jump host are already there.
 | ControlMaster sockets | `~/.ssh/sockets/` | In `.gitignore` |
 | `ForwardAgent` | `home/.ssh/config` | **Off** by default |
 | `.env`, `*.pem`, `*.key` | anywhere | Caught by `.gitignore_global` |
+
+---
+
+## macOS workstation
+
+The Mac side (Ghostty, BlexMono Nerd Font, starship, atuin, delta, LazyVim, tmux, Claude Code sessions) is documented in [`docs/mac-terminal.md`](docs/mac-terminal.md). Those configs are not linked by `scripts/link-configs.sh`; the doc lists where each live file sits.
