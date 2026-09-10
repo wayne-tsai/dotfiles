@@ -11,7 +11,8 @@ home/.gnupg/
 
 # ── p10k cache & instant-prompt ───────────────────────────────────────────────
 home/.cache/
-home/.p10k.zsh        # machine-generated; commit your own copy explicitly
+# machine-generated; commit your own copy explicitly
+home/.p10k.zsh
 
 # ── Zim compiled files ────────────────────────────────────────────────────────
 home/.local/share/zim/
