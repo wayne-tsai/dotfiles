@@ -26,7 +26,7 @@ Designed for fast, repeatable setup on any Debian-based Linux system.
 |------|-------------|-------|
 | zsh | `home/.zshrc`, `home/.zshenv`, `home/.zimrc` | zimfw module manager, plugins, aliases |
 | powerlevel10k | `home/.p10k.zsh` (generate with `p10k configure`) | fast prompt with instant-prompt |
-| tmux | `home/.tmux.conf` | `C-a` prefix, vi-keys, true colour, status bar |
+| tmux | `home/.tmux.conf` | `C-b` prefix, vi-keys, true colour, status bar |
 | vim | `home/.vimrc` | sane defaults, space leader, split nav |
 | git | `home/.gitconfig`, `home/.gitignore_global` | aliases, global ignore |
 | SSH | `home/.ssh/config` | ControlMaster multiplexing, ed25519-first |
