@@ -32,3 +32,7 @@ Thumbs.db
 wallpaper/*.png
 # scratch seeds; keep only the catppuccin-topo-* sources
 wallpaper/topo*.svg
+
+# Machine-local git identity (never committed)
+home/.gitconfig.local
+.gitconfig.local

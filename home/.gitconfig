@@ -1,6 +1,9 @@
-[user]
-    name = Your Name
-    email = your@email.com
+# Identity lives in ~/.gitconfig.local (untracked) so this public repo carries
+# no personal email. Create it with:
+#     git config --file ~/.gitconfig.local user.name  "Your Name"
+#     git config --file ~/.gitconfig.local user.email "you@example.com"
+[include]
+    path = ~/.gitconfig.local
 
 [core]
     excludesfile = ~/.gitignore_global
@@ -60,3 +63,6 @@
 
 [help]
     autocorrect = 1
+
+[includeIf "gitdir:~/Developer/dareesoft/"]
+    path = ~/.gitconfig-work.local
