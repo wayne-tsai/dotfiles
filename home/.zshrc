@@ -2,17 +2,10 @@
 #
 # One file, two machines. Shared config sits at the top level; anything that
 # only makes sense on one OS is guarded by $OSTYPE:
-#   macOS  → starship prompt, eza/bat/fzf/zoxide/atuin, nvm + conda
-#   Linux  → powerlevel10k prompt, apt/ss/free system aliases
+#   both   → starship prompt (~/.config/starship.toml)
+#   macOS  → eza/bat/fzf/zoxide/atuin, nvm + conda
+#   Linux  → apt/ss/free system aliases
 # The Mac setup is documented in docs/mac-terminal.md.
-
-# ── Powerlevel10k instant prompt (Linux only) ─────────────────────────────────
-# Must stay near the top of .zshrc. No console output before this block.
-if [[ $OSTYPE != darwin* ]]; then
-    if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-        source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-    fi
-fi
 
 # ── Zim module settings (must be set BEFORE init.zsh is sourced) ──────────────
 WORDCHARS=${WORDCHARS//[\/]}          # treat / as a word separator
@@ -238,8 +231,4 @@ else
 fi
 
 # ── Prompt (must stay last) ───────────────────────────────────────────────────
-if [[ $OSTYPE == darwin* ]]; then
-    eval "$(starship init zsh)"
-else
-    [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-fi
+(( ${+commands[starship]} )) && eval "$(starship init zsh)"

@@ -1,6 +1,6 @@
 # macOS terminal setup (Ghostty + zsh + Neovim)
 
-Written 2026-09-08, updated 2026-09-10. This is the Mac workstation setup, separate from the Debian server configs under `home/`. Most live files here are listed per section and are not symlinked. The exception is Ghostty: `home/.config/ghostty/` is tracked and symlinked by `scripts/link-configs.sh` like any other dotfile.
+Written 2026-09-08, updated 2026-10-08. This is the Mac workstation setup, separate from the Debian server configs under `home/`. Most live files here are listed per section and are not symlinked. The exceptions are Ghostty (`home/.config/ghostty/`), starship (`home/.config/starship.toml`), `.zshrc` and `.zimrc`: they are tracked and symlinked by `scripts/link-configs.sh` like any other dotfile.
 
 ## Table of contents
 
@@ -80,13 +80,14 @@ If icons look small, use the non-Mono variant: `BlexMono Nerd Font`.
 Files: `~/.zshrc`, `~/.zimrc`, `~/.config/starship.toml`.
 
 `~/.zshrc` and `~/.zimrc` are now symlinks into `home/` and are shared with the
-Linux servers. Both branch on `$OSTYPE`: macOS gets starship plus the eza / bat /
-fzf / zoxide / atuin stack, Linux gets powerlevel10k and the apt / ss aliases.
+Linux servers. Both branch on `$OSTYPE`: macOS gets the eza / bat / fzf / zoxide /
+atuin stack, Linux gets the apt / ss aliases. Both use the starship prompt.
 Add anything Mac-only inside the `if [[ $OSTYPE == darwin* ]]` block.
 
 - zim loads: git, completion, syntax-highlighting, history-substring-search, autosuggestions.
 - starship prompt, Catppuccin Mocha palette, segments: user, directory, git branch/status, language versions, time. Uses starship's named palette so colors read as `bg:blue` not hex.
-- powerlevel10k never loads on this Mac: `.zimrc` only declares the module when `$OSTYPE` is not `darwin*`. Leftovers `~/.zim/` (the old non-XDG zim home) and `~/.p10k.zsh` are dead weight here; zim now lives at `~/.local/share/zim`.
+- `~/.config/starship.toml` is tracked at `home/.config/starship.toml`, so Linux servers get the same prompt.
+- powerlevel10k is gone from both machines. Leftovers `~/.zim/` (the old non-XDG zim home) and `~/.p10k.zsh` are dead weight and safe to delete; zim now lives at `~/.local/share/zim`.
 - zsh has `noclobber` on: `cmd > existing` fails with `file exists`. Use `>|` to force.
 
 Aliases added at the bottom of `~/.zshrc`:

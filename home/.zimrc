@@ -1,12 +1,6 @@
 # .zimrc — Zimfw module list
 # Run `zimfw install` after editing this file.
 
-# ── Theme ─────────────────────────────────────────────────────────────────────
-# macOS uses starship (see .zshrc); powerlevel10k is Linux-only.
-if [[ $OSTYPE != darwin* ]]; then
-    zmodule romkatv/powerlevel10k --use degit
-fi
-
 # ── Core utilities ────────────────────────────────────────────────────────────
 zmodule environment        # sets sane zsh defaults
 zmodule input              # correct bindkeys for input sequences

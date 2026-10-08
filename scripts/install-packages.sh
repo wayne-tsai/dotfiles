@@ -99,14 +99,14 @@ else
     success "zimfw already installed."
 fi
 
-# ── Install Powerlevel10k (standalone, if zimfw isn't used) ───────────────────
-P10K_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/powerlevel10k"
-if [[ ! -d "$P10K_DIR" ]]; then
-    info "Cloning Powerlevel10k…"
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
-    success "Powerlevel10k cloned."
+# ── Install starship prompt (into ~/.local/bin, no sudo) ──────────────────────
+if ! command -v starship &>/dev/null && [[ ! -x "$HOME/.local/bin/starship" ]]; then
+    info "Installing starship…"
+    mkdir -p "$HOME/.local/bin"
+    curl -fsSL https://starship.rs/install.sh | sh -s -- --yes --bin-dir "$HOME/.local/bin"
+    success "starship installed."
 else
-    success "Powerlevel10k already present."
+    success "starship already installed."
 fi
 
 # ── Locale ────────────────────────────────────────────────────────────────────

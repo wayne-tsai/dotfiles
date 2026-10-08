@@ -1,7 +1,8 @@
 # dotfiles
 
-Personal dotfiles for **vim · tmux · zsh · zimfw · powerlevel10k · git · SSH · mosh**.
-Designed for fast, repeatable setup on any Debian-based Linux system.
+Personal dotfiles for **vim · tmux · zsh · zimfw · starship · git · SSH · mosh**.
+Designed for fast, repeatable setup on any Debian-based Linux system, and shared
+with my macOS workstation (see [macOS workstation](#macos-workstation)).
 
 ---
 
@@ -17,6 +18,7 @@ Designed for fast, repeatable setup on any Debian-based Linux system.
 8. [Personalisation](#personalisation)
 9. [Adding new dotfiles](#adding-new-dotfiles)
 10. [Security notes](#security-notes)
+11. [macOS workstation](#macos-workstation)
 
 ---
 
@@ -25,14 +27,15 @@ Designed for fast, repeatable setup on any Debian-based Linux system.
 | Tool | Config file | Notes |
 |------|-------------|-------|
 | zsh | `home/.zshrc`, `home/.zshenv`, `home/.zimrc` | zimfw module manager, plugins, aliases |
-| powerlevel10k | `home/.p10k.zsh` (generate with `p10k configure`) | fast prompt with instant-prompt |
+| starship | `home/.config/starship.toml` | same prompt on macOS and Linux, Catppuccin Mocha, needs a Nerd Font in your terminal |
 | tmux | `home/.tmux.conf` | `C-b` prefix, vi-keys, true colour, status bar |
 | vim | `home/.vimrc` | sane defaults, space leader, split nav |
 | git | `home/.gitconfig`, `home/.gitignore_global` | aliases, global ignore |
 | SSH | `home/.ssh/config` | ControlMaster multiplexing, ed25519-first |
+| ccstatusline | `home/.config/ccstatusline/settings.json`, `work.json` | Claude Code status bar (personal / work) |
 | Ghostty | `home/.config/ghostty/config`, `home/.config/ghostty/shaders/` | macOS only, ignored on Linux. See [docs/mac-terminal.md](docs/mac-terminal.md) |
 
-**Installed packages:** `zsh`, `vim`, `git`, `tmux`, `openssh-client/server`, `mosh`, `gh` (GitHub CLI), `curl`, `wget`, `htop`, `tree`, `jq`, `unzip`, `build-essential`
+**Installed packages:** `zsh`, `vim`, `git`, `tmux`, `openssh-client/server`, `mosh`, `gh` (GitHub CLI), `curl`, `wget`, `htop`, `tree`, `jq`, `unzip`, `build-essential`, plus `zimfw` and `starship` (installed to `~/.local/bin`, no sudo)
 
 ---
 
@@ -55,7 +58,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/wayne-tsai/dotfiles/main/scr
 The bootstrap script will interactively:
 
 1. Install `git` if missing, then clone this repo to `~/dotfiles`
-2. Install all packages via `apt` (including `gh`, `zimfw`, `powerlevel10k`)
+2. Install all packages via `apt` (including `gh`, `zimfw`, `starship`)
 3. Symlink every file under `home/` into `$HOME`
 4. Offer to append your SSH public key to `~/.ssh/authorized_keys`
 5. Offer to set the system timezone
@@ -74,7 +77,7 @@ bash ~/dotfiles/scripts/bootstrap.sh
 If you prefer to run each step yourself:
 
 ```bash
-# 1. Install all packages (apt + zimfw + powerlevel10k)
+# 1. Install all packages (apt + zimfw + starship)
 bash ~/dotfiles/scripts/install-packages.sh
 
 # 2. Symlink configs into ~/
@@ -111,6 +114,7 @@ dotfiles/
 │   ├── .ssh/
 │   │   └── config
 │   └── .config/
+│       ├── starship.toml       Prompt config, shared by macOS and Linux
 │       ├── ghostty/            macOS only; harmless on Linux (no Ghostty, no reader)
 │       │   ├── config
 │       │   └── shaders/        GLSL cursor and background effects
@@ -129,6 +133,8 @@ dotfiles/
 ├── docs/                       Per-machine setup notes
 │   └── mac-terminal.md         Mac workstation: Ghostty, zsh, Neovim, shader tuning
 │
+├── wallpaper/                  Catppuccin topo SVG wallpapers + generator (topo-gen.py)
+│
 ├── Makefile                    Convenience targets
 ├── .gitignore                  Keeps secrets and caches out of git
 └── README.md
@@ -144,8 +150,10 @@ dotfiles/
 ```bash
 exec zsh           # switch to zsh immediately (or log out and back in)
 zimfw install      # download and install all zsh modules listed in ~/.zimrc
-p10k configure     # interactive prompt wizard — generates ~/.p10k.zsh
 ```
+
+The starship prompt works right away. If icons show as boxes, set a Nerd Font
+in your terminal (on the client machine when you SSH in).
 
 ### Authenticate GitHub CLI
 
@@ -204,29 +212,19 @@ Prints the public key at the end so you can copy it to GitHub or other hosts.
 
 ### 1 — Set your git identity
 
-```bash
-vim ~/dotfiles/home/.gitconfig
-```
+Git identity is **not** tracked. `home/.gitconfig` includes `~/.gitconfig.local`,
+which you create once per machine:
 
-Change:
-```ini
-[user]
-    name  = Your Name
-    email = your@email.com
+```sh
+git config --file ~/.gitconfig.local user.name  "Your Name"
+git config --file ~/.gitconfig.local user.email "you@example.com"
 ```
 
 ### 2 — Configure your prompt
 
-```bash
-p10k configure     # interactive wizard, writes ~/.p10k.zsh
-```
-
-Copy the generated file into the repo so it's versioned:
-
-```bash
-cp ~/.p10k.zsh ~/dotfiles/home/.p10k.zsh
-make link          # re-link so ~/dotfiles/home/.p10k.zsh is the canonical copy
-```
+Edit `~/dotfiles/home/.config/starship.toml` (it is symlinked to
+`~/.config/starship.toml`). Changes apply on the next prompt, no reload needed.
+See the [starship config docs](https://starship.rs/config/).
 
 ### 3 — Add SSH hosts
 
@@ -261,16 +259,8 @@ Templates for a bastion/jump host are already there.
 
 The Mac side (Ghostty, BlexMono Nerd Font, starship, atuin, delta, LazyVim, tmux, Claude Code sessions) is documented in [`docs/mac-terminal.md`](docs/mac-terminal.md).
 
-`home/.zshrc` and `home/.zimrc` are shared by both machines and branch on `$OSTYPE`:
-macOS gets the starship prompt and the eza / bat / fzf / zoxide / atuin stack, Linux
-gets powerlevel10k and the apt / ss system aliases. The remaining Mac-only configs
-(Ghostty, starship.toml, atuin, LazyVim) are not linked by `scripts/link-configs.sh`;
-the doc lists where each live file sits.
-
-Git identity is **not** tracked. `home/.gitconfig` includes `~/.gitconfig.local`, which
-you create once per machine:
-
-```sh
-git config --file ~/.gitconfig.local user.name  "Your Name"
-git config --file ~/.gitconfig.local user.email "you@example.com"
-```
+`home/.zshrc` and `home/.zimrc` are shared by both machines. Both use the starship
+prompt; `.zshrc` branches on `$OSTYPE` for the rest: macOS gets the eza / bat / fzf /
+zoxide / atuin stack, Linux gets the apt / ss system aliases. Ghostty and starship
+configs are tracked under `home/.config/`. The other Mac-only configs (atuin, LazyVim)
+are not in the repo; the doc lists where each live file sits.

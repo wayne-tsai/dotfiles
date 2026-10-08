@@ -9,10 +9,8 @@ home/.ssh/sockets/
 home/.netrc
 home/.gnupg/
 
-# ── p10k cache & instant-prompt ───────────────────────────────────────────────
+# ── Caches ────────────────────────────────────────────────────────────────────
 home/.cache/
-# machine-generated; commit your own copy explicitly
-home/.p10k.zsh
 
 # ── Zim compiled files ────────────────────────────────────────────────────────
 home/.local/share/zim/

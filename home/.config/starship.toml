@@ -1,0 +1,101 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+palette = "catppuccin_mocha"
+
+format = """
+[░▒▓](lavender)\
+[ \uE711 ](bg:lavender fg:crust)\
+[\uE0B4](bg:blue fg:lavender)\
+$directory\
+[\uE0B4](fg:blue bg:surface1)\
+$git_branch\
+$git_status\
+[\uE0B4](fg:surface1 bg:surface0)\
+$nodejs\
+$bun\
+$rust\
+$golang\
+$php\
+$python\
+[\uE0B4](fg:surface0 bg:mantle)\
+$time\
+[\uE0B4 ](fg:mantle)\
+\n$character"""
+
+[palettes.catppuccin_mocha]
+crust = "#11111b"
+mantle = "#181825"
+base = "#1e1e2e"
+surface0 = "#313244"
+surface1 = "#45475a"
+subtext0 = "#a6adc8"
+text = "#cdd6f4"
+lavender = "#b4befe"
+blue = "#89b4fa"
+sapphire = "#74c7ec"
+green = "#a6e3a1"
+yellow = "#f9e2af"
+peach = "#fab387"
+red = "#f38ba8"
+mauve = "#cba6f7"
+
+[directory]
+style = "fg:crust bg:blue"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "\U000F0219 "
+"Downloads" = "\uF019 "
+"Music" = "\uF001 "
+"Pictures" = "\uF03E "
+
+[git_branch]
+symbol = "\uF418"
+style = "bg:surface1"
+format = '[[ $symbol $branch ](fg:lavender bg:surface1)]($style)'
+
+[git_status]
+style = "bg:surface1"
+format = '[[($all_status$ahead_behind )](fg:peach bg:surface1)]($style)'
+
+[nodejs]
+symbol = "\uE718"
+style = "bg:surface0"
+format = '[[ $symbol ($version) ](fg:green bg:surface0)]($style)'
+
+[bun]
+symbol = "\uE76F"
+style = "bg:surface0"
+format = '[[ $symbol ($version) ](fg:text bg:surface0)]($style)'
+
+[rust]
+symbol = "\uE7A8"
+style = "bg:surface0"
+format = '[[ $symbol ($version) ](fg:peach bg:surface0)]($style)'
+
+[golang]
+symbol = "\uE627"
+style = "bg:surface0"
+format = '[[ $symbol ($version) ](fg:sapphire bg:surface0)]($style)'
+
+[php]
+symbol = "\uE608"
+style = "bg:surface0"
+format = '[[ $symbol ($version) ](fg:mauve bg:surface0)]($style)'
+
+[python]
+symbol = "\uE73C"
+style = "bg:surface0"
+format = '[[ $symbol ($version)(\($virtualenv\)) ](fg:yellow bg:surface0)]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:mantle"
+format = "[[ \uF43A $time ](fg:subtext0 bg:mantle)]($style)"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
