@@ -79,9 +79,14 @@ If icons look small, use the non-Mono variant: `BlexMono Nerd Font`.
 
 Files: `~/.zshrc`, `~/.zimrc`, `~/.config/starship.toml`.
 
+`~/.zshrc` and `~/.zimrc` are now symlinks into `home/` and are shared with the
+Linux servers. Both branch on `$OSTYPE`: macOS gets starship plus the eza / bat /
+fzf / zoxide / atuin stack, Linux gets powerlevel10k and the apt / ss aliases.
+Add anything Mac-only inside the `if [[ $OSTYPE == darwin* ]]` block.
+
 - zim loads: git, completion, syntax-highlighting, history-substring-search, autosuggestions.
 - starship prompt, Catppuccin Mocha palette, segments: user, directory, git branch/status, language versions, time. Uses starship's named palette so colors read as `bg:blue` not hex.
-- powerlevel10k is fully disabled (all references commented out). Leftovers `~/.zim/modules/powerlevel10k` and `~/.p10k.zsh` are dead weight and safe to delete.
+- powerlevel10k never loads on this Mac: `.zimrc` only declares the module when `$OSTYPE` is not `darwin*`. Leftovers `~/.zim/` (the old non-XDG zim home) and `~/.p10k.zsh` are dead weight here; zim now lives at `~/.local/share/zim`.
 - zsh has `noclobber` on: `cmd > existing` fails with `file exists`. Use `>|` to force.
 
 Aliases added at the bottom of `~/.zshrc`:
@@ -93,7 +98,7 @@ Aliases added at the bottom of `~/.zshrc`:
 | `vim`, `vi` | nvim. Old vimrc setup: `oldvim` |
 | `gs gl gd gds ga gc gco gp gpl gb` | git status/log/diff/diff --staged/add/commit/checkout/push/pull/branch |
 | `lg` | lazygit |
-| `claude-work` | function: tints Ghostty background purple, runs Claude with `CLAUDE_CONFIG_DIR=~/.claude-work`, resets on exit |
+| `claude-work` | function: runs Claude with `CLAUDE_CONFIG_DIR=~/.claude-work` (separate settings, plugins, sessions, auth) |
 
 ## CLI tools
 
@@ -189,10 +194,19 @@ Two config dirs: `~/.claude` (personal) and `~/.claude-work` (dareesoft). Themes
 
 | Session | Theme | Extra cue |
 |---|---|---|
-| `claude` | `dark` | |
-| `claude-work` | `dark-ansi` (uses terminal palette) | Ghostty background tinted purple while running |
+| `claude` | `dark` | status bar text `🚀 Personal 🚀` |
+| `claude-work` | `dark-ansi` (uses terminal palette) | status bar text `🚨 Dareesoft 🚨` |
 
 Both use ccstatusline for the bar under the input. Change theme in-session with `/theme`. Theme lives in each dir's `settings.json`, which overrides `.claude.json`.
+
+ccstatusline widget config is tracked in this repo and symlinked by `make link`:
+
+| Session | `statusLine.command` in `settings.json` | ccstatusline config |
+|---|---|---|
+| `claude` | `npx -y ccstatusline@latest` | `~/.config/ccstatusline/settings.json` (ccstatusline default path) |
+| `claude-work` | `npx -y ccstatusline@latest --config $HOME/.config/ccstatusline/work.json` | `~/.config/ccstatusline/work.json` |
+
+Both files are identical except the `customText` widget. `~/.claude/settings.json` and `~/.claude-work/settings.json` themselves are not tracked (they hold plugin state and machine-local paths).
 
 ## Backups
 
@@ -212,6 +226,8 @@ Made during setup, safe to delete once happy:
 - **Nerd Font glyphs in config files.** They are Unicode private-use characters and some editors or agents silently drop them. In TOML write `"\uE0B4"`, in Lua `"\u{e0b4}"`. Verify with a byte search, never by eye.
 - **Ghost text turned white.** `minimum-contrast` above ~2 flips borderline-dim text to pure white instead of nudging it. Keep it at 1.5 and set `palette = 8=` explicitly.
 - **Duplicate `compinit` warning.** zim's completion module already runs it. Do not add another `compinit` call after zim init.
+- **`zimfw: Unknown action` on every new shell.** `.zshrc` was sourcing `$ZIM_HOME/zimfw.zsh` (the CLI) instead of `$ZIM_HOME/init.zsh` (the built module file). Sourcing the CLI with no action prints its usage text and loads nothing, so the prompt silently falls back to bare zsh.
+- **`make link` overwrites the Mac config with the Linux one.** `scripts/link-configs.sh` symlinks everything under `home/` into `$HOME`, moving the existing file to `home.bak/` first. Nothing is lost, but the live config becomes whatever the repo tracks. Git identity is the easy one to miss: it now comes from the untracked `~/.gitconfig.local`, included by `home/.gitconfig`, so the public repo carries no personal email.
 - **Padding and font changes** apply to new tabs only after reload.
 - **Shader artifacts frozen on screen when unfocused.** `iTime` is seconds since the *first frame rendered*, not wall clock, and `custom-shader-animation = true` (the default) only runs the animation loop while the surface is focused. So `iTime` nearly stops when you switch away, and one isolated frame later (a modifier keypress, a link hover) can still compute `iTime - iTimeCursorChange` inside the animation window, painting a stale effect that then sits there until refocus. Guard every draw branch with `iFocus > 0`. Ghostty exposes that uniform for exactly this. `custom-shader-animation = always` also works but burns CPU on every unfocused surface.
 - **Ghostty reads two config files.** `~/.config/ghostty/config` and `~/Library/Application Support/com.mitchellh.ghostty/config.ghostty` are both loaded and merged last-write-wins per key. A stray copy of the latter silently overrode `font-size` and injected an extra `custom-shader` for three months. When a config change appears not to take, check `ghostty +show-config` for the resolved values rather than trusting the file you edited.
