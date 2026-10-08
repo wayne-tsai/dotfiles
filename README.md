@@ -111,9 +111,10 @@ dotfiles/
 │   ├── .ssh/
 │   │   └── config
 │   └── .config/
-│       └── ghostty/            macOS only; harmless on Linux (no Ghostty, no reader)
-│           ├── config
-│           └── shaders/        GLSL cursor and background effects
+│       ├── ghostty/            macOS only; harmless on Linux (no Ghostty, no reader)
+│       │   ├── config
+│       │   └── shaders/        GLSL cursor and background effects
+│       └── ccstatusline/       Claude Code status bar; settings.json = personal, work.json = dareesoft
 │
 ├── bin/                        Utility scripts — on $PATH via .zshenv
 │   ├── update-system           apt update + upgrade + dist-upgrade + autoremove
@@ -258,4 +259,18 @@ Templates for a bastion/jump host are already there.
 
 ## macOS workstation
 
-The Mac side (Ghostty, BlexMono Nerd Font, starship, atuin, delta, LazyVim, tmux, Claude Code sessions) is documented in [`docs/mac-terminal.md`](docs/mac-terminal.md). Those configs are not linked by `scripts/link-configs.sh`; the doc lists where each live file sits.
+The Mac side (Ghostty, BlexMono Nerd Font, starship, atuin, delta, LazyVim, tmux, Claude Code sessions) is documented in [`docs/mac-terminal.md`](docs/mac-terminal.md).
+
+`home/.zshrc` and `home/.zimrc` are shared by both machines and branch on `$OSTYPE`:
+macOS gets the starship prompt and the eza / bat / fzf / zoxide / atuin stack, Linux
+gets powerlevel10k and the apt / ss system aliases. The remaining Mac-only configs
+(Ghostty, starship.toml, atuin, LazyVim) are not linked by `scripts/link-configs.sh`;
+the doc lists where each live file sits.
+
+Git identity is **not** tracked. `home/.gitconfig` includes `~/.gitconfig.local`, which
+you create once per machine:
+
+```sh
+git config --file ~/.gitconfig.local user.name  "Your Name"
+git config --file ~/.gitconfig.local user.email "you@example.com"
+```
